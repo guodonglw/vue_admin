@@ -7,16 +7,16 @@ node
 
 ## 二、开发环境搭建
 ```
-# 将项目拉到本地
+// 将项目拉到本地
 git clone 项目地址
 
-# cd到本地项目下
+// cd到本地项目下
 cd ../vueProject
 
-# 安装项目运行需要的依赖包
+// 安装项目运行需要的依赖包
 npm install / cnpm install  (注：如需运行cnpm install，需先安运行npm install cnpm安装cnpm)
 
-# 在本地开发时，运行项目
+// 在本地开发时，运行项目
 npm run dev / cnpm run dev
 
 ```
@@ -29,20 +29,20 @@ npm run dev / cnpm run dev
 端接口统一用了'url' + ':' + '端口号' + '/api'的形式，在完成上述修改后，进行下面的操作。
 
 ```
-# 项目打包
+// 项目打包
 npm run build / cnpm run build
 
-# 查看是否生成了dist文件夹
+// 查看是否生成了dist文件夹
 在文件夹下包括index.html文件和static文件，如作了标题旁的图片，可能还有logo.ico
 
-# cd到dist文件夹下
+// cd到dist文件夹下
 cd ./dist/
 
-# 将dist文件夹下的static的文件夹与index.html文件直接放在nginx服务器根目录下
+// 将dist文件夹下的static的文件夹与index.html文件直接放在nginx服务器根目录下
 
-# 配置nginx，在nginx.conf文件中修改所要监听的端口
+// 配置nginx，在nginx.conf文件中修改所要监听的端口
 
-# chrome浏览器访问对应的域名，如http://xxx.xxx.com:123/
+// chrome浏览器访问对应的域名，如http://xxx.xxx.com:123/
 如部署到个人服务器，没有域名，访问地址为http:// + ip + ：端口号
 
 ```
@@ -55,5 +55,58 @@ cd ./dist/
 server端服务器部署分为node.js服务器和MySQL数据库两部分工作
 
 ## 二、node.js服务器相关
+
+### 一、node.js环境安装
+方法一
+```
+wget https://nodejs.org/dist/v4.4.4/node-v4.4.4-linux-x64.tar.xz
+tar -xvf node-v4.4.4-linux-x64.tar
+
+```
+方法二
+```
+sudo apt-get node
+
+```
+node安装完成后，需要使用npm安装forever守护进程模块
+```
+// 全局安装
+npm install -g forever
+
+// 启动项目进程
+forever start app.js
+
+// 重启项目进程
+forever restart app.js
+
+//停止项目进程
+forever stop app.js
+
+```
+
+## 三、MySQL数据库
+如使用自己服务器数据库，需要安装MySQL
+```
+// 数据库初始化
+mysql –uroot –p </root/xxx.sql
+
+```
+
+## 四、服务器部署与启动项目
+```
+// 安装项目依赖
+npm install / cnpm install 
+
+// 临时启动项目（检查项目是否有错误）
+node app.js
+
+// 后台守护进程启动项目
+forever start app.js
+
+```
+
+
+
+
 
 
