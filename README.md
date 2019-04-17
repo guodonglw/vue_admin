@@ -1,6 +1,6 @@
-# 前端vue+后端express项目开发
+# web端vue+server端express项目开发
 
-# 前端vue项目
+# web端vue项目
 
 ## 一、运行环境
 node
@@ -48,5 +48,12 @@ cd ./dist/
 ```
 在跳转到登录页面后，输入数据库对应表（如admin）中对应的账号/密码（如：lilei/123456）,若跳转到首页页面，则部署成功，否则根据所出现
 的问题（按F12调出控制台进行查看），解决出现的问题，然后重复上述步骤。
+
+# server端express项目
+
+## 一、概述
+server端服务器部署分为node.js服务器和MySQL数据库两部分工作
+
+## 二、node.js服务器相关
 
 
