@@ -68,6 +68,7 @@ tar -xvf node-v4.4.4-linux-x64.tar
 sudo apt-get node
 
 ```
+### 二、forever守护进程模块
 node安装完成后，需要使用npm安装forever守护进程模块
 ```
 // 全局安装
