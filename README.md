@@ -106,6 +106,25 @@ forever start app.js
 
 ```
 
+# 关于https的配置补充
+
+## 一、web端代码修改
+```
+// vue项目config/prod.env.js修改（改为https的请求协议）
+BASE_URL:"'https://xxx.xxx.xxx:111/api'"
+
+// 项目打包（如果之前已经build过，需先执行rm -r dist）
+npm run build
+
+// dist文件夹下index.html与static放到nginx下
+
+```
+
+## 二、Server端代码修改
+（改日再写）
+
+
+
 
 
 
