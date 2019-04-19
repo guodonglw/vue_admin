@@ -18,7 +18,7 @@ cd ../vueProject
 // 安装项目运行需要的依赖包
 npm install / cnpm install  (注：如需运行cnpm install，需先安运行npm install cnpm安装cnpm)
 
-// 若在npm install后，提示需要执行git audit fix则继续执行该命令
+// 若在npm install后，提示需要执行npm audit fix则继续执行该命令
 npm audit fix
 
 // 在本地开发时，运行项目
