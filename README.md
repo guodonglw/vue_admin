@@ -16,6 +16,9 @@ cd ../vueProject
 // 安装项目运行需要的依赖包
 npm install / cnpm install  (注：如需运行cnpm install，需先安运行npm install cnpm安装cnpm)
 
+// 若在npm install后，提示需要执行git audit fix则继续执行该命令
+npm audit fix
+
 // 在本地开发时，运行项目
 npm run dev / cnpm run dev
 
@@ -98,6 +101,9 @@ mysql –uroot –p </root/xxx.sql
 // 安装项目依赖
 npm install / cnpm install 
 
+// 若在npm install后，提示需要执行git audit fix则继续执行该命令
+npm audit fix
+
 // 临时启动项目（检查项目是否有错误）
 node app.js
 
@@ -121,7 +127,40 @@ npm run build
 ```
 
 ## 二、Server端代码修改
-（改日再写）
+```
+// 停止Server程序
+forever stop app.js
+
+// 将ssl的.crt，.key放到Server/cert目录下
+
+// 安装必要模块
+npm install http --save -d (加--save -d会将模块名写入package.json中，下次npm install即可安装该模块)
+npm install https --save -d
+npm install fs --save -d
+
+// app.js开始部分添加代码
+var http = require('http');
+var https = require('https');
+var fs = require('fs');
+
+// Configuare https
+const httpsOption = {
+    key : fs.readFileSync("./cert/.key"),
+    cert: fs.readFileSync("./cert/.crt")
+}
+
+// app.js末尾部分代码修改
+http.createServer(app).listen(4001 ,function(){
+    console.log("Listening on port:" + 1000);
+});
+https.createServer(httpsOption, app).listen(
+    1001,function(){
+    console.log("Listening on port:" + 1001);
+});
+
+// 至此，https已经配置完成
+
+```
 
 
 
