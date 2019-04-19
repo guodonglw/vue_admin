@@ -1,3 +1,5 @@
+# 该项目不太适合大型项目的开发
+
 # web端vue+server端express项目开发
 
 # web端vue项目
