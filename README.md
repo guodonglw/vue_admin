@@ -2,7 +2,7 @@
 
 # web端vue+server端express项目开发
 
-# web端vue项目
+# web端vue项目（该项目受https://github.com/taylorchen709/vue-admin影响极大）
 
 ## 一、运行环境
 node
