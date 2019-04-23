@@ -1,0 +1,27 @@
+{
+  "name": "myproject",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "***",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "connect-mongo": "^2.0.3",
+    "cookie-parser": "^1.4.4",
+    "crypto": "^1.0.1",
+    "express": "^4.14.0",
+    "express-session": "^1.15.6",
+    "log4js": "^1.0.1",
+    "moment": "^2.17.1",
+    "mongodb": "^2.2.13",
+    "mysql": "^2.16.0",
+    "pm2": "^2.2.2",
+    "request": "^2.79.0",
+    "request-promise": "^4.1.1"
+  },
+  "devDependencies": {},
+  "description": ""
+}
