@@ -19,8 +19,6 @@ Mock.bootstrap();
 */
 import 'font-awesome/css/font-awesome.min.css'
 
-axios.defaults.withCredentials=true;  // 让ajax携带cookie
-
 Vue.use(VueAxios, axios)
 Vue.use(ElementUI)
 Vue.use(VueRouter)
