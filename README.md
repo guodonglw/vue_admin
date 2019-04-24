@@ -1,4 +1,4 @@
-**demo**: [http://39.105.222.188/myVueDemo/](http://39.105.222.188/myVueDemo/)
+**demo**: [在线 Demo](http://39.105.222.188/myVueDemo/)
 
 ### 该项目不太适合大型项目的开发
 
