@@ -20,11 +20,6 @@
             <el-col :span="12">
                 <div id="chartLine" style="width:103%; height:400px;"></div>
             </el-col>
-            <!--
-            <el-col :span="12">
-                <div id="chartLine1" style="width:103%; height:400px;"></div>
-            </el-col>
-            -->
         </el-row>
     </section>
 </template>
@@ -32,7 +27,6 @@
 <script>
     import util from '../../common/js/util'
     import echarts from 'echarts'
-    import {requestTotal,requestWeek} from "../../api/api";
 
     export default {
         data() {
@@ -41,16 +35,16 @@
                 chartLine: null,
                 chartLine1: null,
 
-                total_admin: '',
-                total_userAccounts: '',
+                total_admin: 5,
+                total_userAccounts: 10,
 
-                total_admin_today:'',
-                total_userAccounts_today: '',
+                total_admin_today:1,
+                total_userAccounts_today: 1,
 
                 week: [],
 
-                Roles: [],
-                UserAccounts: [],
+                Roles: [4, 3, 3, 2, 2, 3, 4],
+                UserAccounts: [5, 4, 3, 3, 2, 1, 1],
             }
         },
 
@@ -64,41 +58,8 @@
                 }
                 this.week = week;
 
-                // 构建请求条件（一周的时间戳）
-                let now_time = util.formatDate.format(new Date(new Date().getTime()), 'yyyy-MM-dd hh:mm:ss');
-                let time = util.formatDate.format(new Date(new Date().getTime() - 6*24*60*60*1000), 'yyyy-MM-dd 00:00:00');
-                let para = {
-                    QueryTime: [time, now_time],
-                };
-                // NProgress.start();
-                await requestWeek(para).then((res) => {
-                    let weekRoles = [];  // 一周管理员趋势数据（中间变量）
-                    let weekUserAccounts = [];  // 一周账单趋势数据（中间变量）
-                    this.week.forEach(function (item) {
-                        let roleItem = (!res.result.Roles[item]) ? 0 : res.result.Roles[item];
-                        let userAccountItem = (!res.result.UserAccounts[item]) ? 0 : res.result.UserAccounts[item];
-                        weekRoles.push(roleItem);
-                        weekUserAccounts.push(userAccountItem)
-                    });
-                    this.Roles = weekRoles;
-                    this.UserAccounts = weekUserAccounts;
-
-                    // 当日数据
-                    this.total_admin_today = this.Roles[0];
-                    this.total_userAccounts_today = this.UserAccounts[0];
-
-                    let para = {};
-                    // NProgress.start();
-                    // 获取总数据接口
-                    requestTotal(para).then((res) => {
-                        this.total_admin = res.result.RoleCount;
-                        this.total_userAccounts = res.result.UserAccountsCount;
-                        this.drawColumnChart();
-                        this.drawLineChart();
-                        // NProgress.done();
-                    });
-					// NProgress.done();
-				});
+                this.drawColumnChart();
+                this.drawLineChart();
             },
 
             // 调用echarts绘制柱状图函数

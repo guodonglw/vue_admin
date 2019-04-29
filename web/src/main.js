@@ -13,10 +13,10 @@ import './directives'  //控制对话框移动
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import routes from './routes'
-/*
+
 import Mock from './mock'
 Mock.bootstrap();
-*/
+
 import 'font-awesome/css/font-awesome.min.css'
 
 Vue.use(VueAxios, axios)

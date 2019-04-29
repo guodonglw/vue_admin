@@ -3,9 +3,8 @@ import { Message, MessageBox } from 'element-ui';
 
 // axios.defaults.withCredentials = true;
 const instance = axios.create({
-    baseURL: process.env.BASE_API, // api的base_url
+    baseURL: '', // api的base_url
     timeout: 10000,
-    crossDomain: true
 });
 
 // request拦截器

@@ -4,7 +4,7 @@
 		<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
 			<el-form :inline="true" :model="filters">
 				<el-form-item>
-					<el-input v-model="filters.LoginName" placeholder="请输入查询账号" />
+					<el-input v-model="filters.name" placeholder="请输入查询账号" />
 				</el-form-item>
 				<el-form-item>
 					<el-button type="primary" v-on:click="getAdmins">查询</el-button>
@@ -18,25 +18,33 @@
 		<!--列表-->
 		<el-table :data="users" highlight-current-row v-loading="listLoading" @selection-change="selsChange"
 				  style="width: 100%;text-align: center;" @sort-change='sortChange' border="">
+            <el-table-column type="expand" width="25" >
+			  	<template slot-scope="props">
+					<el-form label-position="left" inline class="demo-table-expand" style="text-align: left">
+                        <el-form-item label="ID">
+							<span>{{ props.row.id }}</span>
+				  		</el-form-item>
+						<el-form-item label="姓名">
+							<span>{{ props.row.name }}</span>
+				  		</el-form-item>
+					</el-form>
+			  </template>
+            </el-table-column>
 			<el-table-column type="selection" width="80" align="center">
 			</el-table-column>
-			<el-table-column prop="SAID" label="SAID" min-width="100" align="center" sortable='custom'>
+            <el-table-column type="index" width="60" align="center">
 			</el-table-column>
-			<el-table-column prop="LoginName" label="账号" min-width="160" align="center" sortable='custom'>
+			<el-table-column prop="id" label="ID" min-width="180" align="center" sortable>
 			</el-table-column>
-			<el-table-column prop="RealName" label="真实姓名" min-width="160" align="center" sortable='custom'>
+			<el-table-column prop="name" label="姓名" min-width="160" align="center" sortable>
                 <template slot-scope="scope">
                     <el-button type="info" style="width: 100px;height: 35px;align-content: center"
-							   @click="jumpUserAccount(scope.$index, scope.row)">{{scope.row.RealName}}</el-button>
+							   @click="jumpUserAccount(scope.$index, scope.row)">{{scope.row.name}}</el-button>
                 </template>
 			</el-table-column>
-			<el-table-column prop="Email" label="Email" min-width="160" align="center" sortable='custom'>
+			<el-table-column prop="email" label="Email" min-width="160" align="center" sortable>
 			</el-table-column>
-			<el-table-column prop="CreateTime" label="创建时间" min-width="160" align="center" sortable='custom'>
-			</el-table-column>
-			<el-table-column prop="LastLogin" label="最后登录时间" min-width="160" align="center" sortable='custom'>
-			</el-table-column>
-            <el-table-column prop="LastIP" label="最后登录IP" min-width="160" align="center" sortable='custom'>
+			<el-table-column prop="buildtime" label="创建时间" min-width="160" align="center" sortable>
 			</el-table-column>
 			<el-table-column label="操作" width="150">
 				<template slot-scope="scope">
@@ -57,39 +65,27 @@
 		<!--编辑界面-->
 		<el-dialog v-dialogDrag title="编辑" v-model="editFormVisible" :close-on-click-modal="false" customClass="customWidth">
 			<el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
-				<el-form-item label="账号" prop="LoginName" >
-					<el-input v-model="editForm.LoginName" auto-complete="off" style="width: 200px;" :disabled="true" />
+				<el-form-item label="姓名" prop="name">
+					<el-input v-model="editForm.name" style="width: 200px;" placeholder="请输入真实姓名" />
 				</el-form-item>
-				<el-form-item v-if="Judge" label="密码" prop="Password">
-					<el-input v-model="editForm.Password" auto-complete="off" style="width: 200px;" type="password" placeholder="请输入密码" />
-				</el-form-item>
-				<el-form-item v-if="Judge" label="真实姓名" prop="RealName">
-					<el-input v-model="editForm.RealName" style="width: 200px;" placeholder="请输入真实姓名" />
-				</el-form-item>
-				<el-form-item v-if="Judge" label="Email" prop="Email">
-					<el-input v-model="editForm.Email" style="width: 200px;" placeholder="请输入邮箱" />
+				<el-form-item  label="Email" prop="email">
+					<el-input v-model="editForm.email" style="width: 200px;" placeholder="请输入邮箱" />
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click.native="editFormVisible = false">取消</el-button>
-				<el-button v-if="Judge" type="primary" @click.native="editSubmit" :loading="editLoading">提交</el-button>
+				<el-button type="primary" @click.native="editSubmit" :loading="editLoading">提交</el-button>
 			</div>
 		</el-dialog>
 
 		<!--新增界面-->
 		<el-dialog v-dialogDrag title="新增" v-model="addFormVisible" :close-on-click-modal="false" customClass="customWidth">
 			<el-form :model="addForm" label-width="80px" :rules="addFormRules" ref="addForm">
-				<el-form-item label="账号" prop="LoginName">
-					<el-input v-model="addForm.LoginName" auto-complete="off" style="width: 230px;" placeholder="请输入新增账号（至少两个字符）" />
+				<el-form-item label="姓名" prop="name">
+					<el-input v-model="addForm.name" auto-complete="off" style="width: 230px;" placeholder="请输入新增用户" />
 				</el-form-item>
-				<el-form-item label="密码" prop="Password">
-					<el-input v-model="addForm.Password" auto-complete="off" style="width: 230px;" type="password" placeholder="账号密码（6-30位字符组成）" />
-				</el-form-item>
-				<el-form-item label="真实姓名" prop="RealName">
-					<el-input v-model="addForm.RealName" auto-complete="off" style="width: 230px;" placeholder="请输入真实姓名" />
-				</el-form-item>
-				<el-form-item label="Email" prop="Email">
-					<el-input v-model="addForm.Email" auto-complete="off" style="width: 230px;" placeholder="请输入有效邮箱" />
+				<el-form-item label="Email" prop="email">
+					<el-input v-model="addForm.email" auto-complete="off" style="width: 230px;" placeholder="请输入有效邮箱" />
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
@@ -101,17 +97,14 @@
 </template>
 
 <script>
-	// import util from '../../common/js/util'
 	// import NProgress from 'nprogress'
-	import { getAdminListPage, removeAdmin, editAdmin, addAdmin } from '../../api/api';
+	import { getAdminListPage, removeAdmin, removeMoreAdmin, editAdmin, addAdmin } from '../../api/api';
 
 	export default {
 		data() {
 			return {
-				filters: {
-					LoginName: '',
-					OrderField: 'LastLogin',
-					AscOrDesc: 'descending'
+				filters: {  // 筛选条件
+					name: ''
 				},
 				users: [],
 
@@ -120,27 +113,19 @@
 
 				total: 0,
 				Page: 1,
-				PageNum: 15,
+				PageNum: 20,
 				listLoading: false,
 				sels: [],  // 列表选中列
 
 				editFormVisible: false,  // 编辑界面是否显示
 				editLoading: false,
 				editFormRules: {
-					LoginName: [
-						{ required: true, message: '请输入姓名', trigger: 'blur' }
-					],
-					Password: [
-						{ required: true, message: '请输入密码', trigger: 'blur' }, {
-					    pattern: /^[a-zA-Z0-9~'!@#￥$%^&*()-+_=:]{6,30}$/, message: '只能输入6-30个字母、数字、特殊字符'}, {
-					    min: 6, max: 30, message: '长度为 6 到 30 个字符'},
-					],
-					RealName: [
+					name: [
 						{ required: true, message: '请输入真实姓名', trigger: 'blur' },{
 					    min: 2, message: '真实姓名不小于两个字符'},{
 						pattern: /^[\u4E00-\u9FA5]+$/, message: '姓名只能为中文'}
 					],
-					Email: [
+					email: [
 						{
 						    required: true, message: '请输入邮箱地址',
 							trigger: 'blur'
@@ -152,30 +137,19 @@
 				},
 				// 编辑界面数据
 				editForm: {
-					LoginName: '',
-					Password: '',
-					RealName: '',
-					Email: '',
+					name: '',
+					email: '',
 				},
 
 				addFormVisible: false,  // 新增界面是否显示
 				addLoading: false,
 				addFormRules: {
-					LoginName: [
-						{ required: true, message: '请输入账号', trigger: 'blur' },{
-					    min: 2, message: '账号不小于两个字符'}
-					],
-					Password: [
-						{ required: true, message: '请输入密码', trigger: 'blur' }, {
-					    pattern: /^[a-zA-Z0-9~'!@#￥$%^&*()-+_=:]{6,30}$/, message: '只能输入6-30个字母、数字、特殊字符'}, {
-					    min: 6, max: 30, message: '长度为 6 到 30 个字符'},
-					],
-					RealName: [
+					name: [
 						{ required: true, message: '请输入真实姓名', trigger: 'blur' },{
 					    min: 2, message: '真实姓名不小于两个字符'},{
 						pattern: /^[\u4E00-\u9FA5]+$/, message: '姓名只能为中文'}
 					],
-					Email: [
+					email: [
 						{
 						    required: true,
 							message: '请输入邮箱地址', trigger: 'blur'
@@ -187,10 +161,8 @@
 				},
 				// 新增界面数据
 				addForm: {
-					LoginName: '',
-					Password: '',
-					RealName: '',
-					Email: '',
+					name: '',
+					email: '',
 				}
 
 			}
@@ -198,7 +170,6 @@
 		methods: {
 		    // 处理列名旁边上下三角排序的功能
 		    sortChange: function(column, prop, order) {
-    			// console.log(column + '-' + column.prop + '-' + column.order),
 				this.filters.OrderField = column.prop;
 				this.filters.AscOrDesc = column.order;
 				this.getAdmins();
@@ -212,25 +183,16 @@
 
 			// 获取用户列表
 			getAdmins() {
-		        if (this.filters.OrderField === null) {
-		            this.filters.OrderField = 'LastLogin';
-		            this.filters.AscOrDesc = 'descending'
-				}else{}
-
 				let para = {
-					Page: this.Page,
-					PageNum: this.PageNum,
-					LoginName: this.filters.LoginName,
-					OrderField: this.filters.OrderField,
-					AscOrDesc: this.filters.AscOrDesc
+					page: this.Page,
+					name: this.filters.name,
 				};
 				this.listLoading = true;
 				// NProgress.start();
 				getAdminListPage(para).then((res) => {
 					// this.total = len(res);
-					// console.log(res);
-					this.total = res.result.total;
-					this.users = res.result.data;
+					this.total = res.total;
+					this.users = res.users;
 					this.listLoading = false;
 					// NProgress.done();
 				}).catch((err) => {
@@ -241,48 +203,15 @@
 
             // 点击跳转到账单页面
 			jumpUserAccount: function (index, row) {
-				this.$router.push({ path: '../userAccount',query: { SAID: row.SAID }})
+				this.$router.push({ path: '../userAccount',query: { name: row.name}})
             },
-
-			// 删除
-			handleDel: function (index, row) {
-				this.$confirm('确认删除该记录吗?', '提示', {
-					type: 'warning'
-				}).then(() => {
-					this.listLoading = true;
-					// NProgress.start();
-					let para = { SAID: row.SAID };
-					removeAdmin(para).then((res) => {
-						this.listLoading = false;
-						// NProgress.done();
-						let code = parseInt(res.code);
-						let msg = res.msg;
-						if (code == 0) {
-						    this.$message({
-							message: '删除成功',
-							type: 'success'
-							});
-						}
-						else{
-						    this.$message({
-							message: msg,
-							type: 'error'
-							});
-						}
-						this.getAdmins();
-					});
-				}).catch((err) => {
-				    console.log('删除失败', err)
-				});
-			},
 
 			// 显示新增界面
 			handleAdd: function () {
 				this.addFormVisible = true;
 				this.addForm = {
-					LoginName: '',
-					RealName: '',
-					Email: '',
+					name: '',
+					email: '',
 				};
 			},
 			// 新增
@@ -326,9 +255,6 @@
 
 			// 显示编辑界面
 			handleEdit: function (index, row) {
-		        let SessionLN = JSON.parse(sessionStorage.getItem('user'));
-		        this.SessionLN = SessionLN.LoginName;
-                this.Judge = (this.SessionLN === row.LoginName) ? this.Judge = true : this.Judge = false;
 				this.editFormVisible = true;
 				this.editForm = Object.assign({}, row);
 
@@ -370,6 +296,38 @@
 				});
 			},
 
+            // 删除
+			handleDel: function (index, row) {
+				this.$confirm('确认删除该记录吗?', '提示', {
+					type: 'warning'
+				}).then(() => {
+					this.listLoading = true;
+					// NProgress.start();
+					let para = { id: row.id };
+					removeAdmin(para).then((res) => {
+						this.listLoading = false;
+						// NProgress.done();
+						let code = parseInt(res.code);
+						let msg = res.msg;
+						if (code == 0) {
+						    this.$message({
+							message: '删除成功',
+							type: 'success'
+							});
+						}
+						else{
+						    this.$message({
+							message: msg,
+							type: 'error'
+							});
+						}
+						this.getAdmins();
+					});
+				}).catch((err) => {
+				    console.log('删除失败', err)
+				});
+			},
+
 			// 批量删除列表
 			selsChange: function (sels) {
 				this.sels = sels;
@@ -377,14 +335,14 @@
 
 			// 批量删除
 			batchRemove: function () {
-				var ids = this.sels.map(item => parseInt(item.SAID));
+				var ids = this.sels.map(item => item.id);
 				this.$confirm('确认删除选中记录吗？', '提示', {
 					type: 'warning'
 				}).then(() => {
 					this.listLoading = true;
 					// NProgress.start();
-					let para = { SAID: ids};
-					removeAdmin(para).then((res) => {
+					let para = { ids: ids};
+					removeMoreAdmin(para).then((res) => {
 						this.listLoading = false;
 						// NProgress.done();
 						let code = parseInt(res.code);

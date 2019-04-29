@@ -3,7 +3,6 @@ import NotFound from './views/404.vue'
 import Home from './views/Home.vue'
 import Main from './views/Main.vue'
 import Admin from './views/nav1/Admin.vue'
-import User from './views/nav2/User.vue'
 import UserAccount from './views/nav5/UserAccount'
 import Vuex from './views/nav3/vuex.vue'
 import ToDoList from './views/nav4/toDoList.vue'
@@ -43,18 +42,6 @@ let routes = [
             { path: '/admin', component: Admin, name: '账号管理' },
         ]
     },
-    /*
-    {
-        path: '/',
-        component: Home,
-        name: '',
-        iconCls: 'fa fa-user-circle-o',
-        leaf: true,
-        children: [
-            { path: '/user', component: User, name: '用户管理' },
-        ]
-    },
-    */
     {
         path: '/',
         component: Home,
@@ -65,6 +52,7 @@ let routes = [
             { path: '/userAccount', component: UserAccount, name: '账本管理' },
         ]
     },
+    /*
     {
         path: '/',
         component: Home,
@@ -75,13 +63,15 @@ let routes = [
             { path: '/vuex', component: Vuex, name: '全局变量' },
         ]
     },
+    */
     {
         path: '/',
         component: Home,
-        name: '',
+        name: '二级菜单',
         iconCls: 'fa fa-user-circle-o',
-        leaf: true,
+        // leaf: true,
         children: [
+            { path: '/vuex', component: Vuex, name: '全局变量' },
             { path: '/todolist', component: ToDoList, name: 'toDoList' },
         ]
     },

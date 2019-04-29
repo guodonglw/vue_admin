@@ -17,14 +17,16 @@
 
 <script>
     import { requestLogin } from '../api/api';
+    import { mapGetters, mapActions } from 'vuex'
+    import { setCookie, getCookie, clearCookie } from '../common/js/cookieRelated'
     // import NProgress from 'nprogress'
     export default {
         data() {
             return {
                 logining: false,
                 ruleForm2: {
-                    account: '',
-                    checkPass: ''
+                    account: 'admin',
+                    checkPass: 'admin'
                 },
                 rules2: {
                     account: [
@@ -39,7 +41,17 @@
                 checked: false
             };
         },
+        computed: {
+            // 使用对象展开运算符将 getters 混入 computed 对象中
+            ...mapGetters([
+                'rememberPassword'
+            ])
+        },
         methods: {
+            ...mapActions([
+                'notRememberPwd',
+                'rememberPwd'
+            ]),
             handleReset2() {
                 this.$refs.ruleForm2.resetFields();
             },
@@ -50,7 +62,7 @@
                         // _this.$router.replace('/table');
                         this.logining = true;
                         // NProgress.start();
-                        var loginParams = { LoginName: this.ruleForm2.account, Password: this.ruleForm2.checkPass};
+                        var loginParams = { username: this.ruleForm2.account, password: this.ruleForm2.checkPass };
                         requestLogin(loginParams).then(data => {
                             this.logining = false;
                             // NProgress.done();
@@ -68,9 +80,11 @@
                                 sessionStorage.setItem('token', data.token);
                                 sessionStorage.setItem('user', JSON.stringify(LoginParams));
                                 if (this.checked === true) {
-                                    this.setCookie(this.ruleForm2.account, this.ruleForm2.checkPass, 300)
+                                    this.rememberPwd(this.ruleForm2);  // 全局方法
+                                    setCookie(this.ruleForm2.account, this.ruleForm2.checkPass, 3000)
                                 } else {
-                                    this.clearCookie()
+                                    this.notRememberPwd();
+                                    clearCookie()
                                 }
                                 this.$router.push({ path: '/charts' });
                             }
@@ -81,37 +95,9 @@
                     }
                 });
             },
-
-            // 设置cookie
-            setCookie(c_name, c_pwd, extime) {
-                // var exdate = new Date(); //获取时间
-                // exdate.setTime(exdate.getTime() + 24 * 60 * 60 * 1000 * exdays); //保存的天数
-                // 字符串拼接cookie
-                window.document.cookie = "userName" + "=" + c_name + ";path=/;max-age=" + extime;
-                window.document.cookie = "userPwd" + "=" + c_pwd + ";path=/;max-age=" + extime;
-            },
-            // 读取cookie
-            getCookie: function() {
-                if (document.cookie.length > 0) {
-                    var arr = document.cookie.split('; ');  // 这里显示的格式需要切割一下自己可输出看下
-                    for (var i = 0; i < arr.length; i++) {
-                        var arr2 = arr[i].split('=');  // 再次切割
-                        // 判断查找相对应的值
-                        if (arr2[0] == 'userName') {
-                            this.ruleForm2.account = arr2[1];  // 保存到保存数据的地方
-                        } else if (arr2[0] == 'userPwd') {
-                            this.ruleForm2.checkPass = arr2[1];
-                        }
-                    }
-                }
-            },
-            // 清除cookie
-            clearCookie: function() {
-                this.setCookie("", "", -1);  // 修改2值都为空，天数为负1天就好了
-            }
         },
         mounted() {
-            this.getCookie();
+            this.ruleForm2 = getCookie();
         }
     }
 

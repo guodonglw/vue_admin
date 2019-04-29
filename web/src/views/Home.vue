@@ -50,7 +50,9 @@
 
 <script>
 	import reload from "../App.vue"
-    import { requestLogout } from "../api/api"
+    import { mapGetters } from 'vuex'
+    import { setCookie, clearCookie } from '../common/js/cookieRelated'
+
 	export default {
 	    inject: ['reload'],  // 注入重载的功能
 		data() {
@@ -61,6 +63,12 @@
 				sysUserAvatar: ''
 			}
 		},
+        computed: {
+            // 使用对象展开运算符将 getters 混入 computed 对象中
+            ...mapGetters([
+                'rememberPassword'
+            ])
+        },
 		methods: {
 			onSubmit() {
 				console.log('submit!');
@@ -80,25 +88,13 @@
 				this.$confirm('确认退出吗?', '提示', {
 					//type: 'warning'
 				}).then(() => {
-				    requestLogout({"admin": "logout"}).then((res) => {
-                        let code = parseInt(res.code);
-                        let msg = res.msg;
-                        if (code == 0) {
-                            this.$message({
-                                message: '登出成功',
-                                type: 'success'
-                            });
-                        }
-                        else {
-                            this.$message({
-                                message: msg,
-                                type: 'error'
-                            });
-                        }
-                        sessionStorage.removeItem('user');
-                        sessionStorage.removeItem('token');
-                        _this.$router.push('/login');
-                    })
+				    // 该处如果管理员开始选中了记住密码选项，在登出时将用户/密码写入cookie
+                    if (this.rememberPassword.rememberPwd) {
+                        setCookie(this.rememberPassword.userInfo.userName, this.rememberPassword.userInfo.userPwd, 3000)
+                    } else {
+                        clearCookie()
+                    }
+                    _this.$router.push('/login');
 				}).catch((error) => {
 				    console.log(error)
 				});
@@ -123,7 +119,7 @@
         font-size: 16px;
     }
     */
-	
+
 	.container {
 		position: absolute;
 		top: 0px;
