@@ -47,6 +47,7 @@ router.beforeEach((to, from, next) => {
 //});
 
 /* leaflet icon */
+import "leaflet.icon.glyph";
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),

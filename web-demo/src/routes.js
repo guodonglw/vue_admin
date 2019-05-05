@@ -7,6 +7,7 @@ import UserAccount from './views/nav5/UserAccount'
 import Vuex from './views/nav3/vuex.vue'
 import ToDoList from './views/nav4/toDoList.vue'
 import LeafLet from './views/nav4/leaflet.vue'
+import Leaflet1 from './views/nav4/leaflet1.vue'
 import Charts from './views/charts/echarts'
 
 
@@ -74,7 +75,8 @@ let routes = [
         children: [
             { path: '/vuex', component: Vuex, name: '全局变量' },
             { path: '/todolist', component: ToDoList, name: 'toDoList' },
-            { path: '/leaflet', component: LeafLet, name: 'leaflet' }
+            { path: '/leaflet', component: LeafLet, name: 'leaflet' },
+            { path: '/leaflet1', component: Leaflet1, name: 'leaflet示例' }
         ]
     },
     {
