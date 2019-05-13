@@ -1,18 +1,20 @@
 <template>
-    <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-position="left" label-width="0px" class="demo-ruleForm login-container">
-        <h1 class="title" style="color: cadetblue">后台系统demo</h1>
-        <el-form-item prop="account">
-            <el-input type="text" v-model="ruleForm2.account" auto-complete="off" placeholder="账号" @keyup.enter.native="handleSubmit2" />
-        </el-form-item>
-        <el-form-item prop="checkPass">
-            <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off" placeholder="密码" @keyup.enter.native="handleSubmit2" />
-        </el-form-item>
-            <el-checkbox v-model="checked"  class="remember" @keyup.enter.native="handleSubmit2" >记住密码</el-checkbox>
-        <el-form-item style="width:100%;">
-            <el-button type="primary" style="width:100%;" @click="handleSubmit2" :loading="logining">登录</el-button>
-        <!--<el-button @click.native.prevent="handleReset2">重置</el-button>-->
-        </el-form-item>
-    </el-form>
+    <div class="box">
+        <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-position="left" label-width="0px" class="demo-ruleForm login-container">
+            <h1 class="title" style="color: cadetblue">后台系统demo</h1>
+            <el-form-item prop="account">
+                <el-input type="text" v-model="ruleForm2.account" auto-complete="off" placeholder="账号" @keyup.enter.native="handleSubmit2" />
+            </el-form-item>
+            <el-form-item prop="checkPass">
+                <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off" placeholder="密码" @keyup.enter.native="handleSubmit2" />
+            </el-form-item>
+                <el-checkbox v-model="checked"  class="remember" @keyup.enter.native="handleSubmit2" >记住密码</el-checkbox>
+            <el-form-item style="width:100%;">
+                <el-button type="primary" style="width:100%;" @click="handleSubmit2" :loading="logining">登录</el-button>
+            <!--<el-button @click.native.prevent="handleReset2">重置</el-button>-->
+            </el-form-item>
+        </el-form>
+    </div>
 </template>
 
 <script>
@@ -118,6 +120,13 @@
 </script>
 
 <style lang="scss" scoped>
+    .box {
+        background: url(../assets/bg.jpg);
+        height: 100%;
+        margin:0;
+        overflow:hidden;
+    }
+
     .login-container {
         /*box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02);*/
         -webkit-border-radius: 5px;
