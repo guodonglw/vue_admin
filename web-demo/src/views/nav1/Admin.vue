@@ -12,24 +12,25 @@
 				<el-form-item>
 					<el-button type="primary" @click="handleAdd">新增</el-button>
 				</el-form-item>
+        <export-zip :data="users"></export-zip>
 			</el-form>
 		</el-col>
 
 		<!--列表-->
 		<el-table :data="users" highlight-current-row v-loading="listLoading" @selection-change="selsChange"
 				  style="width: 100%;text-align: center;" @sort-change='sortChange' border="">
-            <el-table-column type="expand" width="25" >
+      <el-table-column type="expand" width="25" >
 			  	<template slot-scope="props">
 					<el-form label-position="left" inline class="demo-table-expand" style="text-align: left">
-                        <el-form-item label="ID">
+            <el-form-item label="ID">
 							<span>{{ props.row.id }}</span>
-				  		</el-form-item>
+            </el-form-item>
 						<el-form-item label="姓名">
 							<span>{{ props.row.name }}</span>
-				  		</el-form-item>
+            </el-form-item>
 					</el-form>
 			  </template>
-            </el-table-column>
+      </el-table-column>
 			<el-table-column type="selection" width="80" align="center">
 			</el-table-column>
             <el-table-column type="index" width="60" align="center">
@@ -99,8 +100,12 @@
 <script>
 	// import NProgress from 'nprogress'
 	import { getAdminListPage, removeAdmin, removeMoreAdmin, editAdmin, addAdmin } from '../../api/api';
+	import ExportZip from './components/exportZip'
 
 	export default {
+	  components: {
+	    ExportZip
+    },
 		data() {
 			return {
 				filters: {  // 筛选条件
@@ -114,6 +119,7 @@
 				total: 0,
 				Page: 1,
 				PageNum: 20,
+        downloadLoading: false,
 				listLoading: false,
 				sels: [],  // 列表选中列
 

@@ -121,7 +121,7 @@
 
 <style lang="scss" scoped>
     .box {
-        background: url(../assets/bg.jpg);
+        background: url(../assets/bg.jpg) no-repeat;
         height: 100%;
         margin:0;
         overflow:hidden;
