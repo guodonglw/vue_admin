@@ -18,7 +18,7 @@
 
 		<!--列表-->
 		<el-table :data="users" highlight-current-row v-loading="listLoading" @selection-change="selsChange"
-				  style="width: 100%;text-align: center;" @sort-change='sortChange' border="">
+				  style="width: 100%;text-align: center;overflow: auto" @sort-change='sortChange' border="">
       <el-table-column type="expand" width="25" >
 			  	<template slot-scope="props">
 					<el-form label-position="left" inline class="demo-table-expand" style="text-align: left">
