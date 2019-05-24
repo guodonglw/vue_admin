@@ -8,14 +8,15 @@
   export default {
     props: {
       data: {
-        type: Object,
+        type: Array,
         required:true
       }
     },
     data() {
       return {
         name: "exportZip",
-        downloadLoading: false
+        downloadLoading: false,
+        datamiddle: this.data
       }
     },
 
