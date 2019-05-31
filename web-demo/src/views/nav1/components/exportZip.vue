@@ -16,7 +16,6 @@
       return {
         name: "exportZip",
         downloadLoading: false,
-        datamiddle: this.data
       }
     },
 

@@ -4,7 +4,6 @@
 
 # web端vue+server端express项目开发
 
-# web端vue项目（该项目原型来源于https://github.com/taylorchen709/vue-admin）
 ## demo的项目对应于web-demo文件夹下代码，数据均为mock产生，实际开发建议参考web文件夹下代码
 
 ## 一、运行环境
