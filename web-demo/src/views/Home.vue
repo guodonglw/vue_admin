@@ -2,7 +2,12 @@
 	<el-row class="container">
 		<el-col :span="24" class="header">
 			<el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
-				{{sysName}}
+				{{collapsed?'':sysName}}
+			</el-col>
+      <el-col :span="10">
+				<div class="tools" @click.prevent="collapsed = !collapsed">
+					<i class="fa fa-align-justify"></i>
+				</div>
 			</el-col>
 			<el-col :span="4" class="userinfo">
 				<el-dropdown trigger="hover">
@@ -17,20 +22,35 @@
 		</el-col>
 
 		<el-col :span="24" class="main">
-			<aside>
+			<aside :class="collapsed?'menu-collapsed':'menu-expanded'">
 				<!--导航菜单-->
-				<el-menu :default-active="$route.path"  @open="handleopen" @close="handleclose" class="el-menu"
-					@select="handleselect" unique-opened router>
+				<el-menu :default-active="$route.path"  @open="handleopen" @close="handleclose" class="el-menu" :style="collapsed?'width:  60px': 'width: 180px'"
+					@select="handleselect" unique-opened router v-show="!collapsed">
 					<template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
 						<el-submenu :index="index+''" v-if="!item.leaf">
 							<template slot="title"><i :class="item.iconCls"></i><strong>{{item.name}}</strong></template>
-                            <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path" v-if="!child.hidden"><strong>{{child.name}}</strong></el-menu-item>
+              <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path" v-if="!child.hidden"><strong>{{child.name}}</strong></el-menu-item>
 						</el-submenu>
 						<el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path">
 							<i :class="item.iconCls"></i><strong>{{item.children[0].name}}</strong>
 						</el-menu-item>
 					</template>
 				</el-menu>
+
+        <!--导航菜单-折叠后-->
+				<ul class="el-menu el-menu-vertical-demo collapsed" v-show="collapsed" ref="menuCollapsed">
+					<li v-for="(item,index) in $router.options.routes" v-if="!item.hidden" class="el-submenu item">
+						<template v-if="!item.leaf">
+							<div class="el-submenu__title" style="padding-left: 20px;" @mouseover="showMenu(index,true)" @mouseout="showMenu(index,false)"><i :class="item.iconCls"></i></div>
+							<ul class="el-menu submenu" :class="'submenu-hook-'+index" @mouseover="showMenu(index,true)" @mouseout="showMenu(index,false)">
+								<li v-for="child in item.children" v-if="!child.hidden" :key="child.path" class="el-menu-item" style="padding-left: 40px;" :class="$route.path==child.path?'is-active':''" @click="$router.push(child.path)">{{child.name}}</li>
+							</ul>
+						</template>
+						<template v-else>
+              <div class="el-submenu__title" style="padding-left: 20px;" @click="$router.push(item.children[0].path)"><i :class="item.iconCls"></i></div>
+						</template>
+					</li>
+				</ul>
 			</aside>
 			<section class="content-container">
 				<div class="grid-content bg-purple-light">
@@ -52,7 +72,7 @@
 	import reload from "../App.vue"
 
 	export default {
-	    inject: ['reload'],  // 注入重载的功能
+    inject: ['reload'],  // 注入重载的功能
 		data() {
 			return {
 				sysName:'后台系统demo',
@@ -84,6 +104,10 @@
 				}).catch((error) => {
 				    console.log(error)
 				});
+			},
+      // 挂载二级菜单
+      showMenu(i,status){
+				this.$refs.menuCollapsed.getElementsByClassName('submenu-hook-'+i)[0].style.display=status?'block':'none';
 			}
 		},
 		mounted() {

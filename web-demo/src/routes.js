@@ -70,7 +70,7 @@ let routes = [
         path: '/',
         component: Home,
         name: '二级菜单',
-        iconCls: 'fa fa-user-circle-o',
+        iconCls: 'fa fa-bandcamp',
         // leaf: true,
         children: [
             { path: '/vuex', component: Vuex, name: '全局变量' },
