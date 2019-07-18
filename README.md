@@ -2,7 +2,7 @@
 
 ### 该项目不太适合大型项目的开发
 
-# web端vue+server端express项目开发
+# web端vue+server端express项目开发(server端koa框架书写见：https://github.com/guodonglw/koa_demo)
 
 ## demo的项目对应于web-demo文件夹下代码，数据均为mock产生，实际开发建议参考web文件夹下代码
 
