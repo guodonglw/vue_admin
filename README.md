@@ -3,8 +3,8 @@
 ## web端vue+server端express项目开发
 
 ## server端koa框架书写见：
-（1）https://github.com/guodonglw/koa_demo（该项目有cluster模块示例，可以利用系统多核开启多进程）
-（2）https://github.com/guodonglw/koa-practice（该项目可基本满足一般页面需求，项目关键词RESTful + koa + 中间件 + mysql + mongo，实际开发可根据需要进行中间件的添加和修改）
+（1）(https://github.com/guodonglw/koa_demo) 该项目有cluster模块示例，可以利用系统多核开启多进程<br />
+（2）(https://github.com/guodonglw/koa-practice) 该项目可基本满足一般页面需求，项目关键词RESTful + koa + 中间件 + mysql + mongo，实际开发可根据需要进行中间件的添加和修改
 
 ## demo的项目对应于web-demo文件夹下代码，数据均为mock产生，实际开发建议参考web文件夹下代码
 
